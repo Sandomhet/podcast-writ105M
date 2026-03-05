@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus Voices — University Podcast</title>
+  <style>
+    :root {
+      --bg: #f8f7f4;
+      --surface: #ffffff;
+      --text: #1a1a1a;
+      --text-muted: #5c5c5c;
+      --accent: #2d5a4a;
+      --accent-soft: #3d7a64;
+      --border: #e8e6e1;
+      --radius: 12px;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      --shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.08);
+      --transition: 0.2s ease;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 17px;
+      line-height: 1.6;
+      color: var(--text);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 4rem;
+    }
+
+    /* Header & show identity */
+    .show-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .cover-art {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto 1.5rem;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: box-shadow var(--transition), transform var(--transition);
+      background: linear-gradient(145deg, #e0ddd8 0%, #c9c6c0 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cover-art:hover {
+      box-shadow: var(--shadow-hover);
+      transform: scale(1.02);
+    }
+    .cover-art svg {
+      width: 80px;
+      height: 80px;
+      opacity: 0.4;
+    }
+
+    .show-name {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin: 0 0 0.5rem;
+    }
+
+    .show-description {
+      font-size: 1rem;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.65;
+    }
+
+    /* Episode block */
+    .episode-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--border);
+      transition: box-shadow var(--transition);
+    }
+    .episode-card:hover {
+      box-shadow: var(--shadow-hover);
+    }
+
+    .episode-title {
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 0 0 1.25rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Audio player */
+    .audio-wrap {
+      margin: 1rem 0 1.5rem;
+      padding: 1.25rem;
+      background: var(--bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+    .audio-wrap audio {
+      width: 100%;
+      height: 48px;
+      outline: none;
+    }
+    .audio-wrap audio::-webkit-media-controls-panel {
+      background: var(--surface);
+    }
+
+    /* Episode notes */
+    .section-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin: 1.5rem 0 0.5rem;
+    }
+    .section-title:first-of-type { margin-top: 0; }
+
+    .episode-notes p {
+      margin: 0 0 0.75rem;
+      color: var(--text);
+    }
+    .episode-notes p:last-child { margin-bottom: 0; }
+
+    .sources-list {
+      margin: 0;
+      padding-left: 1.25rem;
+      color: var(--text-muted);
+    }
+    .sources-list li {
+      margin-bottom: 0.35rem;
+    }
+    .sources-list a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color var(--transition), color var(--transition);
+    }
+    .sources-list a:hover {
+      color: var(--accent-soft);
+      border-bottom-color: var(--accent-soft);
+    }
+
+    /* Script (collapsible) */
+    .script-section {
+      margin-top: 2rem;
+    }
+    .script-section .section-title {
+      margin-bottom: 0.75rem;
+    }
+
+    details {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    details[open] summary {
+      border-bottom: 1px solid var(--border);
+    }
+    summary {
+      padding: 1rem 1.25rem;
+      font-weight: 600;
+      cursor: pointer;
+      list-style: none;
+      transition: background var(--transition);
+      color: var(--accent);
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after {
+      content: "▼";
+      float: right;
+      font-size: 0.7em;
+      opacity: 0.7;
+      transition: transform var(--transition);
+    }
+    details[open] summary::after {
+      transform: rotate(180deg);
+    }
+    summary:hover {
+      background: var(--bg);
+    }
+
+    .script-body {
+      padding: 1.5rem 1.25rem 2rem;
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: var(--text-muted);
+    }
+    .script-body p {
+      margin: 0 0 1rem;
+    }
+    .script-body p:last-child { margin-bottom: 0; }
+    .script-body .speaker {
+      font-weight: 600;
+      color: var(--text);
+      margin-top: 1.25rem;
+    }
+    .script-body .speaker:first-child { margin-top: 0; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="show-header">
+      <div class="cover-art" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+        </svg>
+      </div>
+      <h1 class="show-name">Campus Voices</h1>
+      <p class="show-description">
+        Campus Voices is a student-run podcast from the university, exploring ideas, research, and stories from our community. Each episode features conversations with faculty, students, and guests on topics that matter. Tune in for thoughtful discussions that go beyond the lecture hall.
+      </p>
+    </header>
+
+    <main>
+      <article class="episode-card">
+        <h2 class="episode-title">Episode 1: Why We Study — Finding Your Path in Academia</h2>
+
+        <div class="audio-wrap">
+          <audio controls preload="metadata">
+            <source src="placeholder.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+
+        <div class="episode-notes">
+          <h3 class="section-title">Summary</h3>
+          <p>
+            In this first episode we talk about how different students and researchers found their way into their fields, the role of curiosity and mentorship, and practical advice for anyone still figuring out what they want to study. Our guests share personal stories and lessons learned along the way.
+          </p>
+
+          <h3 class="section-title">Sources &amp; further reading</h3>
+          <ul class="sources-list">
+            <li><a href="#"></a>University Office of Undergraduate Research — Getting Started Guide</li>
+            <li><a href="#"></a>“The Value of a Liberal Education” — Faculty op-ed, Campus Daily</li>
+            <li><a href="#"></a>Study on student motivation and persistence (2022) — Research &amp; Assessment</li>
+          </ul>
+        </div>
+
+        <section class="script-section">
+          <h3 class="section-title">Full episode script</h3>
+          <details>
+            <summary>Expand to read the full script</summary>
+            <div class="script-body">
+              <p class="speaker">Host</p>
+              <p>Welcome to Campus Voices. Today we’re asking one big question: why do we study what we study? I’m joined by two guests who’ll share how they found their path.</p>
+
+              <p class="speaker">Guest 1</p>
+              <p>For me it started with one class in my second year. I didn’t expect to like it as much as I did, but the professor kept opening doors to new questions. That’s when I knew I wanted to go deeper.</p>
+
+              <p class="speaker">Host</p>
+              <p>And you, how did you end up in your current field?</p>
+
+              <p class="speaker">Guest 2</p>
+              <p>I actually switched majors. It felt like a big risk at the time, but talking to advisors and other students helped. The key was giving myself permission to change direction when something felt like a better fit.</p>
+
+              <p class="speaker">Host</p>
+              <p>Both of you mention the importance of people — professors, advisors, peers. What would you tell someone who’s still unsure?</p>
+
+              <p class="speaker">Guest 1</p>
+              <p>Try things. Take a class outside your comfort zone, go to office hours, join a reading group. You don’t have to have it all figured out. Curiosity is enough to start.</p>
+
+              <p class="speaker">Guest 2</p>
+              <p>And it’s okay to change your mind. Your path doesn’t have to be a straight line. Thanks for having us.</p>
+
+              <p class="speaker">Host</p>
+              <p>Thank you both. That’s it for this episode. If you liked what you heard, share it with a friend. We’ll be back soon with another conversation. See you then.</p>
+            </div>
+          </details>
+        </section>
+      </article>
+    </main>
+  </div>
+</body>
+</html>
